@@ -1,0 +1,22 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+
+build:
+  artifacts:
+    - image: my-node-app
+      context: .
+
+deploy:
+  helm:
+    releases:
+      - name: node-release-babai23
+        chartPath: charts/my-app
+        setValueTemplates:
+          image.repository: "{{.IMAGE_REPO_my_node_app}}"
+          image.tag: "{{.IMAGE_TAG_my_node_app}}"
+
+portForward:
+  - resourceType: service
+    resourceName: node-app-service-babu23
+    port: 80
+    localPort: 3000

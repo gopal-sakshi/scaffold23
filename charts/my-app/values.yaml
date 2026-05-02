@@ -1,0 +1,13 @@
+
+replicaCount: 5
+
+image:
+  repository: my-node-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  name: node-app-service-babu23
+  type: ClusterIP
+  port: 80
+  targetPort24: 3000
