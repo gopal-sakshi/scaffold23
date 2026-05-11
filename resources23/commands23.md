@@ -17,18 +17,18 @@ skaffold delete
 - skaffold & helm == designed to be resilient
 - old resources arent automatically deleted unless the cleanup process completes successfully
 
+<!-- ********************************************************************************* -->
+
 k8s is like OS; minikube is laptop
 - real k8s cluster (AWS EKS) -- massive fleet of servers (node) in a data center
-- minikube is a tool taht shrinks the entire fleet into a single VM; can run on our personal computer
+- minikube is a tool that shrinks the entire fleet into a single VM; can run on our personal computer
 - minikube start
     starts a virtual node (docker container)
     installs k8s components (api-server, scheduler, kubelet) -- which look after routing across PODs, scaling up & down
-
-
-
-
 
 minikube status
 minikube dashboard
 minikube ip
 minikube service <name>
+
+<!-- ********************************************************************************* -->
