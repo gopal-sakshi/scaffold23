@@ -14,8 +14,12 @@ spec:
       labels:
         app: second-app23
     spec:
+      serviceAccountName: service24-k8s-sa
       containers:
         - name: second-app23-container
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
             - containerPort: 4044
+          envFrom:
+            - configMapRef:
+                name: second-app-config

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: second-app-config
+  namespace: {{ .Release.Namespace }}
+data:
+  # Define your key-value pairs here (Values must be strings!)
+  APP_ENV: "development"
+  CHESS_API_TIMEOUT: "5000"
+  MAX_PLAYERS_ALLOWED: "10"
