@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: second-app-deployment
+  labels:
+    app: second-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: second-app23
+  template:
+    metadata:
+      labels:
+        app: second-app23
+    spec:
+      containers:
+        - name: second-app23-container
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 4044

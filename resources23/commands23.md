@@ -26,6 +26,9 @@ k8s is like OS; minikube is laptop
     starts a virtual node (docker container)
     installs k8s components (api-server, scheduler, kubelet) -- which look after routing across PODs, scaling up & down
 
+
+`minikube` -- commands
+minikube start
 minikube status
 minikube dashboard
 minikube ip

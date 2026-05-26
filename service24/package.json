@@ -1,9 +1,8 @@
 {
-    "name": "scaffold23",
+    "name": "scaffold23_service24",
     "version": "1.0.0",
     "main": "index.js",
     "dependencies": {
-        "express": "4.16.4",
-        "pg": "^8.20.0"
+        "express": "4.16.4"
     }
 }

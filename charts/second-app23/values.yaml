@@ -1,0 +1,4 @@
+image:
+  repository: second-app23
+  tag: latest
+  pullPolicy: IfNotPresent

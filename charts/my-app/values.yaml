@@ -6,8 +6,16 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
-service:
+service:            ### only 1 k8s service is created... it will have 5 PODs, because replicaCount: 5
   name: node-app-service-babu23
   type: ClusterIP
   port: 80
-  targetPort24: 3000
+  targetPort24: 3023
+
+
+database:       ## pg database is running outside helm chart; on minikube host
+  host: host.minikube.internal
+  port: 5432
+  user: skaffold_user23             ### created user just to bypass this no password error
+  password: "1258"
+  name: postgres

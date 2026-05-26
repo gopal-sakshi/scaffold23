@@ -4,7 +4,13 @@ kind: Config
 build:
   artifacts:
     - image: my-node-app
-      context: .
+      context: ./service23
+      docker:
+        dockerfile: Dockerfile
+    - image: second-app23
+      context: ./service24
+      docker:
+        dockerfile: Dockerfile
 
 deploy:
   helm:
@@ -14,9 +20,19 @@ deploy:
         setValueTemplates:
           image.repository: "{{.IMAGE_REPO_my_node_app}}"
           image.tag: "{{.IMAGE_TAG_my_node_app}}"
+      - name: second-app23-release24
+        chartPath: charts/second-app23
+        setValueTemplates:
+          image.repository: "{{.IMAGE_REPO_second_app23}}"
+          image.tag: "{{.IMAGE_TAG_second_app23}}"
 
 portForward:
   - resourceType: service
     resourceName: node-app-service-babu23
     port: 80
-    localPort: 3000
+    localPort: 13023
+
+  - resourceType: service
+    resourceName: second-app-service-url23
+    port: 4044
+    localPort: 14044
