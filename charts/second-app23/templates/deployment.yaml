@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: second-app-deployment
   labels:
-    app: second-app
+    app: second-app23
 spec:
   replicas: 1
   selector:
@@ -16,6 +16,8 @@ spec:
     spec:
       serviceAccountName: service24-k8s-sa
       containers:
+
+        # main container ================
         - name: second-app23-container
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
@@ -23,3 +25,42 @@ spec:
           envFrom:
             - configMapRef:
                 name: second-app-config
+          readinessProbe:
+            httpGet:
+                path: /health23_readiness
+                port: 4044
+            initialDelaySeconds: 5  # Wait 5 seconds after boot before testing
+            periodSeconds: 10       # Test every 10 seconds
+            timeoutSeconds: 2       # If no response in 2s, consider it a failure
+            successThreshold: 1     # 1 successful hit means it's ready
+            failureThreshold: 3     # 3 failures means remove from service routing
+
+          livenessProbe:
+            httpGet:
+              path: /health23_liveness
+              port: 4044
+            initialDelaySeconds: 15 # Give the app a bit more time before enforcing crashes
+            periodSeconds: 20       # Test every 20 seconds
+            timeoutSeconds: 2
+            failureThreshold: 3     # 3 consecutive failures will trigger a container restart
+
+        # sidecar container ====================
+        - name: health-logger-sidecar
+          image: curlimages/curl:8.2.1
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Starting health logger sidecar23..."
+              
+              # Wait quietly for Node.js to spin up so we don't log connection errors
+              until nc -z localhost 4044; do
+                sleep 2
+              done
+
+              while true; do
+                echo "[$(date)] Checking application health..."
+                # Removed -v and added --fail so it only prints the clean JSON response body
+                curl -s --fail http://localhost:4044/health23
+                echo "\n-----------------------------------"
+                sleep 60
+              done

@@ -159,5 +159,23 @@ app.patch('/k8s-configmap/:name/patch', async (req, res) => {
     }
 });
 
+// this is for sidecar container
+app.get('/health23', async (req, res) => {
+    console.log("main container health bagundi baabu", new Date().toISOString());
+    res.status(200).send({info23: 'baundi', time23: Date.now()})
+});
+
+// this is for readiness probe
+app.get('/health23_readiness', async (req, res) => {
+    console.log("main container ready__probe chesaaa", new Date().toISOString());
+    res.status(200).send({info23: 'ready probe adirini', time23: new Date().toISOString()})
+});
+
+// this is for liveness probe
+app.get('/health23_liveness', async (req, res) => {
+    console.log("main container liveness__probe chesaaa", new Date().toISOString());
+    res.status(200).send({info23: 'live probe superuu', time23: new Date().toISOString()})
+});
+
 const port = 4044;
 app.listen(port, () => console.log(`second-app PORTuuu == ${port}`));

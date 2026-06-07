@@ -36,7 +36,7 @@ app.get('/call_service24', async (_req, res) => {
     const data = await response.json()
     console.log("resp23 ===> ", data );
     res.send(data);
-})
+});
 
 const port = 3023;
 app.listen(port, () => console.log(`node-app PORTU ==== ${port}`));
