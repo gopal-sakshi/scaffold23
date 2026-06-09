@@ -1,0 +1,54 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: second-app-virtualservice
+spec:
+  hosts:
+    - "second-app-service-url23" # The DNS name of your K8s service for the 2nd app
+  http:
+    - route:
+        - destination:
+            host: second-app-service-url23
+            subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: second-app-destinationrule
+spec:
+  host: second-app-service-url23
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN # Options: LEAST_CONN, RANDOM, etc.
+  subsets:
+    - name: v1
+      labels:
+        app: second-app23
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: first-app-virtualservice
+spec:
+  hosts:
+    - "node-app-service-babu23" # The DNS name of your K8s service for the 1st app
+  http:
+    - route:
+        - destination:
+            host: node-app-service-babu23
+            subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: first-app-destinationrule
+spec:
+  host: node-app-service-babu23
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+  subsets:
+    - name: v1
+      labels:
+        # This must match the template label of your 1st service helm chart
+        app: node-app-label

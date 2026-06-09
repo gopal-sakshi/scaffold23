@@ -29,20 +29,20 @@ spec:
             httpGet:
                 path: /health23_readiness
                 port: 4044
-            initialDelaySeconds: 5  # Wait 5 seconds after boot before testing
-            periodSeconds: 10       # Test every 10 seconds
-            timeoutSeconds: 2       # If no response in 2s, consider it a failure
-            successThreshold: 1     # 1 successful hit means it's ready
-            failureThreshold: 3     # 3 failures means remove from service routing
+            initialDelaySeconds: 5          # Wait 5 seconds after boot before testing
+            periodSeconds: 120              # Test every 120 seconds
+            timeoutSeconds: 2               # If no response in 2s, consider it a failure
+            successThreshold: 1             # 1 successful hit means it's ready
+            failureThreshold: 3             # 3 failures means remove from service routing
 
           livenessProbe:
             httpGet:
               path: /health23_liveness
               port: 4044
-            initialDelaySeconds: 15 # Give the app a bit more time before enforcing crashes
-            periodSeconds: 20       # Test every 20 seconds
+            initialDelaySeconds: 15             # Give the app a bit more time before enforcing crashes
+            periodSeconds: 240                  # Test every 240 seconds
             timeoutSeconds: 2
-            failureThreshold: 3     # 3 consecutive failures will trigger a container restart
+            failureThreshold: 3                 # 3 consecutive failures will trigger a container restart
 
         # sidecar container ====================
         - name: health-logger-sidecar
@@ -62,5 +62,5 @@ spec:
                 # Removed -v and added --fail so it only prints the clean JSON response body
                 curl -s --fail http://localhost:4044/health23
                 echo "\n-----------------------------------"
-                sleep 60
+                sleep 120
               done

@@ -12,7 +12,7 @@ build:
       docker:
         dockerfile: Dockerfile
 
-deploy:
+manifests:
   helm:
     releases:
       - name: node-release-babai23
@@ -25,6 +25,24 @@ deploy:
         setValueTemplates:
           image.repository: "{{.IMAGE_REPO_second_app23}}"
           image.tag: "{{.IMAGE_TAG_second_app23}}"
+
+deploy:
+  helm: {}      # Tells Skaffold to use the Helm deployer for the manifests defined above
+
+################ istio vaddu anukunte, ee block comment cheyyii ###############################
+---
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: istio-routing
+
+manifests:              # --- Module 2: Render and Deploy Istio Raw YAMLs ---
+  rawYaml:
+    - charts/istio-routing.yaml
+deploy:
+  kubectl: {} # Tells Skaffold to use standard kubectl to apply the raw manifests
+
+################ istio vaddu anukunte, ee block comment cheyyii ###############################
 
 portForward:
   - resourceType: service
